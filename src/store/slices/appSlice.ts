@@ -1,0 +1,27 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface AppState {
+  sidebarOpen: boolean;
+}
+
+const initialState: AppState = {
+  sidebarOpen: true,
+};
+
+const appSlice = createSlice({
+  name: "app",
+  initialState,
+  reducers: {
+    toggleSidebar(state) {
+      state.sidebarOpen = !state.sidebarOpen;
+    },
+
+    setSidebar(state, action: PayloadAction<boolean>) {
+      state.sidebarOpen = action.payload;
+    },
+  },
+});
+
+export const { toggleSidebar, setSidebar } = appSlice.actions;
+
+export default appSlice.reducer;
