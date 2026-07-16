@@ -1,11 +1,8 @@
 "use client";
 
-import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
 import { ReactNode } from "react";
-
-const theme = createTheme();
-
+import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { theme } from "@/styles/theme";
 interface Props {
   children: ReactNode;
 }
