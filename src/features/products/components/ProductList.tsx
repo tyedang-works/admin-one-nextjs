@@ -4,6 +4,7 @@ import { Stack, Typography } from "@mui/material";
 
 import { useProducts } from "@/features/products/hooks/useProducts";
 import ProductCard from "./ProductCard";
+import Link from "next/link";
 
 export default function ProductList() {
   const { data: products, isLoading, isError } = useProducts();
@@ -26,9 +27,7 @@ export default function ProductList() {
   return (
     <Stack spacing={2} sx={{ px: "20px" }}>
       <Stack direction="row" spacing={1} sx={{ alignItems: "baseline" }}>
-        <Typography variant="h6">
-          Product List
-        </Typography>
+        <Typography variant="h6">Product List</Typography>
 
         <Typography variant="body2" color="text.secondary">
           • {totalItems} {itemLabel}
@@ -37,10 +36,13 @@ export default function ProductList() {
 
       <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
         {products.map((product) => (
-          <ProductCard
+          <Link
+            href={`/products/${product.id}`}
             key={product.id}
-            product={product}
-          />
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ProductCard product={product} />
+          </Link>
         ))}
       </Stack>
     </Stack>

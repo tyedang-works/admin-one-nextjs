@@ -9,12 +9,17 @@ interface Props {
 export default function ProductCard(props: Props) {
   const { product } = props;
   return (
-    <Card>
+    <Card
+      sx={{
+        transition: "0.2s",
+        "&:hover": {
+          boxShadow: 6,
+        },
+      }}
+    >
       <CardContent>
         <Stack spacing={1}>
-          <Typography variant="h6">
-            {product.title}
-          </Typography>
+          <Typography variant="h6">{product.title}</Typography>
 
           <Typography variant="body2" color="text.secondary">
             Price: ${product.price.toFixed(2)}

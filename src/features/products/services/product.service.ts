@@ -6,3 +6,9 @@ export const getProducts = async (): Promise<Product[]> => {
 
   return response.data.products;
 };
+
+export const getProduct = async (id: number): Promise<Product> => {
+  const response = await axiosClient.get(`/products/${id}`);
+
+  return response.data;
+};
