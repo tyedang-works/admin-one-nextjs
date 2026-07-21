@@ -5,9 +5,14 @@ import { Stack, Typography } from "@mui/material";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
+import ProductSearch from "./ProductSearch";
+import { useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function ProductList() {
-  const { data: products, isLoading, isError } = useProducts();
+  const [keyword, setKeyword] = useState("");
+  const debouncedKeyword = useDebounce(keyword);
+  const { data: products, isLoading, isError } = useProducts(debouncedKeyword);
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -35,6 +40,7 @@ export default function ProductList() {
       </Stack>
 
       <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
+        <ProductSearch value={keyword} onChange={setKeyword} />
         {products.map((product) => (
           <Link
             href={`/products/${product.id}`}
