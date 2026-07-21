@@ -1,5 +1,9 @@
-import ProductList from "@/features/products/ProductList";
+import { Typography } from "@mui/material";
 
 export default function HomePage() {
-  return <ProductList />;
+  return (
+    <Typography variant="h4">
+      Dashboard
+    </Typography>
+  );
 }
