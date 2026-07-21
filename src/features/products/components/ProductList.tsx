@@ -1,27 +1,48 @@
 "use client";
 
-import { useProducts } from "@/hooks/useProducts";
+import { Stack, Typography } from "@mui/material";
+
+import { useProducts } from "@/features/products/hooks/useProducts";
+import ProductCard from "./ProductCard";
 
 export default function ProductList() {
-  const { data, isLoading, error } = useProducts();
+  const { data: products, isLoading, isError } = useProducts();
 
   if (isLoading) {
-    return <main>Loading...</main>;
+    return <Typography>Loading...</Typography>;
   }
 
-  if (error) {
-    return <main>Error...</main>;
+  if (isError) {
+    return <Typography color="error">Error loading products.</Typography>;
   }
 
-  if (!data?.length) {
-    return <main>No products found.</main>;
+  if (!products?.length) {
+    return <Typography>No products found.</Typography>;
   }
+
+  const totalItems = products.length;
+  const itemLabel = totalItems === 1 ? "item" : "items";
 
   return (
-    <ul>
-      {data.map((product) => (
-        <li key={product.id}>{product.title}</li>
-      ))}
-    </ul>
+    <Stack spacing={2} sx={{ px: "20px" }}>
+      <Stack direction="row" spacing={1} sx={{ alignItems: "baseline" }}>
+        <Typography variant="h6">
+          Product List
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          • {totalItems} {itemLabel}
+        </Typography>
+      </Stack>
+
+      <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+          />
+        ))}
+      </Stack>
+    </Stack>
   );
 }

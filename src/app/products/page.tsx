@@ -1,17 +1,10 @@
-import ProductCard from "@/features/products/components/ProductCard";
-import ProductList from "@/features/products/components/ProductList";
-import { Grid } from "@mui/material";
+import ProductPage from "@/features/products/components/ProductPage";
+import { Stack } from "@mui/material";
 
 export default function Page() {
   return (
-    <Grid container spacing={0}>
-      <Grid size={12}>
-        <ProductCard />
-      </Grid>
-
-      <Grid size={12}>
-        <ProductList />
-      </Grid>
-    </Grid>
+    <Stack spacing={0}>
+      <ProductPage />
+    </Stack>
   );
 }
