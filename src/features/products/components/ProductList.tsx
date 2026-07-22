@@ -1,18 +1,23 @@
 "use client";
 
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 import { useProducts } from "@/features/products/hooks/useProducts";
-import ProductCard from "./ProductCard";
-import Link from "next/link";
-import ProductSearch from "./ProductSearch";
-import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
+import Link from "next/link";
+import { useState } from "react";
+import ProductCard from "./ProductCard";
+import ProductPagination from "./ProductPagination";
+import ProductSearch from "./ProductSearch";
 
 export default function ProductList() {
   const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(1);
   const debouncedKeyword = useDebounce(keyword);
-  const { data: products, isLoading, isError } = useProducts(debouncedKeyword);
+
+  const { data, isLoading, isError } = useProducts(debouncedKeyword, page);
+
+  const products = data?.products ?? [];
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -26,8 +31,15 @@ export default function ProductList() {
     return <Typography>No products found.</Typography>;
   }
 
-  const totalItems = products.length;
-  const itemLabel = totalItems === 1 ? "item" : "items";
+  const total = data?.total ?? 0;
+  const limit = data?.limit ?? 10;
+  const totalPages = Math.ceil(total / limit);
+  const itemLabel = total === 1 ? "item" : "items";
+
+  const handleKeywordChange = (value: string) => {
+    setPage(1);
+    setKeyword(value);
+  };
 
   return (
     <Stack spacing={2} sx={{ px: "20px" }}>
@@ -35,12 +47,16 @@ export default function ProductList() {
         <Typography variant="h6">Product List</Typography>
 
         <Typography variant="body2" color="text.secondary">
-          • {totalItems} {itemLabel}
+          • {total} {itemLabel}
         </Typography>
       </Stack>
 
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <ProductPagination page={page} onChange={setPage} totalPages={totalPages} />
+      </Box>
+
       <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
-        <ProductSearch value={keyword} onChange={setKeyword} />
+        <ProductSearch value={keyword} onChange={handleKeywordChange} />
         {products.map((product) => (
           <Link
             href={`/products/${product.id}`}
