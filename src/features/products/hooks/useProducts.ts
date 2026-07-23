@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { getProduct, getProducts } from "@/features/products/services/product.service";
-import { Product } from "@/features/products/types/product.types";
+import { Product, ProductFilters, ProductListResponse } from "@/features/products/types/product.types";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export const useProducts = () => {
-  return useQuery<Product[]>({
-    queryKey: ["products"],
-    queryFn: getProducts,
+export const useProducts = (filters: ProductFilters) => {
+  return useQuery<ProductListResponse>({
+    queryKey: ["products", filters],
+    queryFn: () => getProducts(filters),
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -15,4 +15,4 @@ export const useProduct = (id: number) => {
     queryKey: ["product", id],
     queryFn: () => getProduct(id),
   })
-}
+};
