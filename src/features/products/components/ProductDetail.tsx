@@ -1,5 +1,7 @@
 "use client";
 
+import EmptyState from "@/common/components/EmptyState/EmptyState";
+import ErrorState from "@/common/components/ErrorState/ErrorState";
 import { Stack, Typography } from "@mui/material";
 import { useProduct } from "../hooks/useProducts";
 
@@ -9,7 +11,6 @@ interface Props {
 
 export default function ProductDetail(props: Props) {
   const { id } = props;
-  console.log(id, ":id")
   const { data: product, isLoading, isError } = useProduct(id);
 
   if (isLoading) {
@@ -17,11 +18,11 @@ export default function ProductDetail(props: Props) {
   }
 
   if (isError) {
-    return <Typography color="error">Error loading product.</Typography>;
+    return <ErrorState message="Failed to load products." />;
   }
 
   if (!product) {
-    return <>No product found.</>;
+    return <EmptyState message="No products found." />;
   }
 
   return (
