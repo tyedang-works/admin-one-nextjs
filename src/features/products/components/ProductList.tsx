@@ -10,12 +10,19 @@ import ProductCard from "./ProductCard";
 import ProductCategoryFilter from "./ProductCategoryFilter";
 import ProductPagination from "./ProductPagination";
 import ProductSearch from "./ProductSearch";
+import ProductSort from "./ProductSort";
+import {
+  PRODUCT_SORT,
+  PRODUCT_SORT_OPTIONS,
+  ProductSortValue,
+} from "../constants/product-sort.constants";
 
 export default function ProductList() {
   const [filters, setFilters] = useState<ProductFilters>({
     keyword: "",
     category: "",
     page: 1,
+    sort: PRODUCT_SORT.DEFAULT,
   });
 
   //keyword
@@ -34,6 +41,15 @@ export default function ProductList() {
       ...prev,
       keyword: "",
       category: value,
+      page: 1,
+    }));
+  };
+
+  //sort
+  const handleSortChange = (value: ProductSortValue) => {
+    setFilters((prev) => ({
+      ...prev,
+      sort: value,
       page: 1,
     }));
   };
@@ -90,18 +106,20 @@ export default function ProductList() {
         />
       </Box>
 
+      <Box sx={{}}>
+        <ProductSort value={filters.sort} onChange={handleSortChange} />
+      </Box>
+
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <ProductPagination
           page={filters.page}
           onChange={handlePageChange}
-          totalPages={totalPages} />
+          totalPages={totalPages}
+        />
       </Box>
 
       <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
-        <ProductSearch
-          value={filters.keyword}
-          onChange={handleKeywordChange}
-        />
+        <ProductSearch value={filters.keyword} onChange={handleKeywordChange} />
         {products.map((product) => (
           <Link
             href={`/products/${product.id}`}
