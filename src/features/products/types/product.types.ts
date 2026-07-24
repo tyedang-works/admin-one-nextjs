@@ -5,6 +5,7 @@ export interface Product {
   price: number;
   category: string;
   description: string;
+  images: string[];
 }
 export interface ProductListResponse {
   products: Product[];
