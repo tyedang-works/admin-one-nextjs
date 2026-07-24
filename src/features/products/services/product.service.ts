@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "@/constants/pagination.constants";
 import {
   Product,
   ProductFilters,
@@ -7,7 +8,6 @@ import { axiosClient } from "@/services/axios/axiosClient";
 import { PRODUCT_SORT_MAPPING } from "../constants/product-sort-mapping";
 import { CategoryListResponse } from "../types/category.types";
 
-const PAGE_SIZE = 10;
 export const getProducts = async (
   filters: ProductFilters,
 ): Promise<ProductListResponse> => {

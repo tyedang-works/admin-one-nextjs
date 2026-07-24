@@ -1,21 +1,24 @@
 "use client";
 
+import EmptyState from "@/common/components/EmptyState/EmptyState";
+import ErrorState from "@/common/components/ErrorState/ErrorState";
+import { PAGE_SIZE } from "@/constants/pagination.constants";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Box, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  PRODUCT_SORT,
+  ProductSortValue,
+} from "../constants/product-sort.constants";
 import { ProductFilters } from "../types/product.types";
 import ProductCard from "./ProductCard";
 import ProductCategoryFilter from "./ProductCategoryFilter";
+import ProductListSkeleton from "./ProductListSkeleton";
 import ProductPagination from "./ProductPagination";
 import ProductSearch from "./ProductSearch";
 import ProductSort from "./ProductSort";
-import {
-  PRODUCT_SORT,
-  PRODUCT_SORT_OPTIONS,
-  ProductSortValue,
-} from "../constants/product-sort.constants";
 
 export default function ProductList() {
   const [filters, setFilters] = useState<ProductFilters>({
@@ -70,24 +73,22 @@ export default function ProductList() {
 
   const { data, isLoading, isError } = useProducts(queryFilters);
 
-  const products = data?.products ?? [];
+  const { products = [], total = 0, limit = PAGE_SIZE } = data ?? {};
+  const totalPages = Math.ceil(total / limit);
+
+  const itemLabel = total === 1 ? "item" : "items";
 
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <ProductListSkeleton />;
   }
 
   if (isError) {
-    return <Typography color="error">Error loading products.</Typography>;
+    return <ErrorState message="Failed to load products." />;
   }
 
-  if (!products?.length) {
-    return <Typography>No products found.</Typography>;
+  if (products?.length === 0) {
+    return <EmptyState message="No products found." />;
   }
-
-  const total = data?.total ?? 0;
-  const limit = data?.limit ?? 10;
-  const totalPages = Math.ceil(total / limit);
-  const itemLabel = total === 1 ? "item" : "items";
 
   return (
     <Stack spacing={2} sx={{ px: "20px" }}>
@@ -99,16 +100,13 @@ export default function ProductList() {
         </Typography>
       </Stack>
 
-      <Box sx={{}}>
-        <ProductCategoryFilter
-          value={filters.category}
-          onChange={handleCategoryChange}
-        />
-      </Box>
+      <ProductCategoryFilter
+        value={filters.category}
+        onChange={handleCategoryChange}
+      />
 
-      <Box sx={{}}>
-        <ProductSort value={filters.sort} onChange={handleSortChange} />
-      </Box>
+      <ProductSort value={filters.sort} onChange={handleSortChange} />
+      <ProductSearch value={filters.keyword} onChange={handleKeywordChange} />
 
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <ProductPagination
@@ -119,7 +117,6 @@ export default function ProductList() {
       </Box>
 
       <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
-        <ProductSearch value={filters.keyword} onChange={handleKeywordChange} />
         {products.map((product) => (
           <Link
             href={`/products/${product.id}`}
