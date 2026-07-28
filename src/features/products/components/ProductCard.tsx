@@ -1,13 +1,37 @@
 "use client";
 
-import { Card, CardContent, Stack, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Product } from "../types/product.types";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addFavorite, removeFavorite } from "@/store/slices/favorite.slice";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 interface Props {
   product: Product;
 }
 export default function ProductCard(props: Props) {
   const { product } = props;
+  const dispatch = useAppDispatch();
+
+  const isFavorite = useAppSelector((state) =>
+    state.favorite.favoriteIds.includes(product.id),
+  );
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(product.id));
+    } else {
+      dispatch(addFavorite(product.id));
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -28,6 +52,12 @@ export default function ProductCard(props: Props) {
           <Typography variant="body2" color="text.secondary">
             Category: {product.category}
           </Typography>
+        </Stack>
+
+        <Stack>
+          <IconButton onClick={handleFavoriteClick}>
+            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
         </Stack>
       </CardContent>
     </Card>
