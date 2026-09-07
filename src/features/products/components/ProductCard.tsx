@@ -42,7 +42,11 @@ export default function ProductCard(props: Props) {
       }}
     >
       <CardContent>
-        <Stack spacing={1}>
+        <Stack
+          sx={{
+            gap: 1,
+          }}
+        >
           <Typography variant="h6">{product.title}</Typography>
 
           <Typography variant="body2" color="text.secondary">
@@ -55,8 +59,13 @@ export default function ProductCard(props: Props) {
         </Stack>
 
         <Stack>
-          <IconButton onClick={handleFavoriteClick}>
-            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          <IconButton
+            onClick={handleFavoriteClick}
+            aria-label={
+              isFavorite ? "Remove from favorites" : "Add to favorites"
+            }
+          >
+            {isFavorite ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />}
           </IconButton>
         </Stack>
       </CardContent>
