@@ -1,15 +1,19 @@
 "use client";
 
-import { ReactNode } from "react";
-import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { theme } from "@/styles/theme";
+import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { ReactNode } from "react";
 interface Props {
   children: ReactNode;
 }
 
 export default function ThemeProvider({ children }: Props) {
   return (
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider
+      theme={theme}
+      defaultMode="light"
+      disableTransitionOnChange
+    >
       <CssBaseline />
       {children}
     </MuiThemeProvider>

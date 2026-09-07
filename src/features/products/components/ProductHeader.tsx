@@ -19,7 +19,6 @@ export default function ProductHeader() {
     >
       <Typography variant="h4">Products</Typography>
       <PrimaryButton onClick={handleLogout}>Logout</PrimaryButton>
-      {/* <PrimaryButton><AddIcon />Add Product</PrimaryButton> */}
     </Stack>
   );
 }
