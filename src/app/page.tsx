@@ -1,8 +1,9 @@
+import { Typography } from "@mui/material";
+
 export default function HomePage() {
   return (
-    <main>
-      <h1>Admin One</h1>
-      <p>Project Initialized</p>
-    </main>
+    <Typography variant="h4">
+      Dashboard
+    </Typography>
   );
 }
