@@ -91,7 +91,7 @@ export default function ProductList() {
   }
 
   return (
-    <Stack spacing={2} sx={{ px: "20px" }}>
+    <Stack spacing={2}>
       <Stack direction="row" spacing={1} sx={{ alignItems: "baseline" }}>
         <Typography variant="h6">Product List</Typography>
 

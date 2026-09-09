@@ -8,15 +8,7 @@ export default function ProductHeader() {
   const handleLogout = useLogout();
 
   return (
-    <Stack
-      direction={"row"}
-      spacing={2}
-      sx={{
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "20px",
-      }}
-    >
+    <Stack direction={"row"} spacing={2}>
       <Typography variant="h4">Products</Typography>
       <PrimaryButton onClick={handleLogout}>Logout</PrimaryButton>
     </Stack>
