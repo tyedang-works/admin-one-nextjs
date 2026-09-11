@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import AppProvider from "@/providers/AppProvider";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Admin One",

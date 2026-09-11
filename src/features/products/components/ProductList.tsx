@@ -2,6 +2,7 @@
 
 import EmptyState from "@/common/components/EmptyState/EmptyState";
 import ErrorState from "@/common/components/ErrorState/ErrorState";
+import Pagination from "@/common/components/Pagination";
 import { PAGE_SIZE } from "@/constants/pagination.constants";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -16,7 +17,6 @@ import { ProductFilters } from "../types/product.types";
 import ProductCard from "./ProductCard";
 import ProductCategoryFilter from "./ProductCategoryFilter";
 import ProductListSkeleton from "./ProductListSkeleton";
-import ProductPagination from "./ProductPagination";
 import ProductSearch from "./ProductSearch";
 import ProductSort from "./ProductSort";
 
@@ -91,7 +91,7 @@ export default function ProductList() {
   }
 
   return (
-    <Stack spacing={2} sx={{ px: "20px" }}>
+    <Stack spacing={2}>
       <Stack direction="row" spacing={1} sx={{ alignItems: "baseline" }}>
         <Typography variant="h6">Product List</Typography>
 
@@ -109,7 +109,7 @@ export default function ProductList() {
       <ProductSearch value={filters.keyword} onChange={handleKeywordChange} />
 
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <ProductPagination
+        <Pagination
           page={filters.page}
           onChange={handlePageChange}
           totalPages={totalPages}
