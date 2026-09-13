@@ -3,15 +3,10 @@
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import { IconButton, Stack, Typography } from "@mui/material";
 import { useColorScheme } from "@mui/material/styles";
-import { useEffect } from "react";
 import { LoginForm } from "./LoginForm";
 
 export default function LoginPage() {
   const { mode, setMode } = useColorScheme();
-
-  useEffect(() => {
-    setMode("dark");
-  }, [setMode]);
 
   const isDark = mode === "dark";
 
@@ -35,7 +30,7 @@ export default function LoginPage() {
           xs: 3,
           sm: 4,
         },
-        bgcolor: "rgb(5, 6, 10)",
+        bgcolor: "background.default",
       }}
     >
       {/* Background glow */}
@@ -105,7 +100,6 @@ export default function LoginPage() {
         <Typography
           variant="h6"
           sx={{
-            color: "rgb(245, 245, 245)",
             fontWeight: 700,
             letterSpacing: "-0.02em",
           }}
@@ -130,14 +124,11 @@ export default function LoginPage() {
           },
           width: 48,
           height: 48,
-          color: "rgb(180, 185, 195)",
+          color: "text.secondary",
           border: "1px solid",
-          borderColor: "rgba(255, 255, 255, 0.12)",
-          bgcolor: "rgba(255, 255, 255, 0.04)",
+          borderColor: "divider",
+          bgcolor: "action.hover",
           backdropFilter: "blur(12px)",
-          "&:hover": {
-            bgcolor: "rgba(255, 255, 255, 0.08)",
-          },
         }}
       >
         {isDark ? (
@@ -160,11 +151,11 @@ export default function LoginPage() {
           },
           borderRadius: 4,
           border: "1px solid",
-          borderColor: "rgba(255, 255, 255, 0.16)",
-          bgcolor: "rgba(20, 22, 29, 0.72)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          boxShadow: "0 24px 80px rgba(0, 0, 0, 0.45)",
+          borderColor: "divider",
+          bgcolor: "background.paper",
+          boxShadow: isDark
+            ? "0 24px 80px rgba(0, 0, 0, 0.45)"
+            : "0 24px 80px rgba(0, 0, 0, 0.08)",
         }}
       >
         <LoginForm />
@@ -173,13 +164,13 @@ export default function LoginPage() {
       {/* Footer */}
       <Typography
         variant="caption"
+        color="text.secondary"
         sx={{
           position: "absolute",
           bottom: {
             xs: 20,
             sm: 28,
           },
-          color: "rgb(120, 125, 140)",
           fontSize: "0.75rem",
           letterSpacing: "0.02em",
         }}
