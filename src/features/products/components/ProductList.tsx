@@ -28,7 +28,6 @@ export default function ProductList() {
     sort: PRODUCT_SORT.DEFAULT,
   });
 
-  //keyword
   const handleKeywordChange = (value: string) => {
     setFilters((prev) => ({
       ...prev,
@@ -38,7 +37,6 @@ export default function ProductList() {
     }));
   };
 
-  //category
   const handleCategoryChange = (value: string) => {
     setFilters((prev) => ({
       ...prev,
@@ -48,7 +46,6 @@ export default function ProductList() {
     }));
   };
 
-  //sort
   const handleSortChange = (value: ProductSortValue) => {
     setFilters((prev) => ({
       ...prev,
@@ -57,7 +54,6 @@ export default function ProductList() {
     }));
   };
 
-  //pagination
   const handlePageChange = (page: number) => {
     setFilters((prev) => ({
       ...prev,
@@ -66,6 +62,7 @@ export default function ProductList() {
   };
 
   const debouncedKeyword = useDebounce(filters.keyword);
+
   const queryFilters = {
     ...filters,
     keyword: debouncedKeyword,
@@ -74,9 +71,10 @@ export default function ProductList() {
   const { data, isLoading, isError } = useProducts(queryFilters);
 
   const { products = [], total = 0, limit = PAGE_SIZE } = data ?? {};
+
   const totalPages = Math.ceil(total / limit);
 
-  const itemLabel = total === 1 ? "item" : "items";
+  const itemLabel = total === 1 ? "product" : "products";
 
   if (isLoading) {
     return <ProductListSkeleton />;
@@ -86,47 +84,91 @@ export default function ProductList() {
     return <ErrorState message="Failed to load products." />;
   }
 
-  if (products?.length === 0) {
+  if (products.length === 0) {
     return <EmptyState message="No products found." />;
   }
 
   return (
-    <Stack spacing={2}>
-      <Stack direction="row" spacing={1} sx={{ alignItems: "baseline" }}>
-        <Typography variant="h6">Product List</Typography>
+    <Stack sx={{ gap: 3 }}>
+      {/* Filters */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            md: "2fr 1fr 1fr",
+          },
+          gap: 1.5,
+        }}
+      >
+        <ProductSearch value={filters.keyword} onChange={handleKeywordChange} />
 
+        <ProductCategoryFilter
+          value={filters.category}
+          onChange={handleCategoryChange}
+        />
+
+        <ProductSort value={filters.sort} onChange={handleSortChange} />
+      </Box>
+
+      {/* Result count */}
+      <Stack
+        sx={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+        }}
+      >
         <Typography variant="body2" color="text.secondary">
-          • {total} {itemLabel}
+          {total} {itemLabel}
         </Typography>
       </Stack>
 
-      <ProductCategoryFilter
-        value={filters.category}
-        onChange={handleCategoryChange}
-      />
-
-      <ProductSort value={filters.sort} onChange={handleSortChange} />
-      <ProductSearch value={filters.keyword} onChange={handleKeywordChange} />
-
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Pagination
-          page={filters.page}
-          onChange={handlePageChange}
-          totalPages={totalPages}
-        />
-      </Box>
-
-      <Stack spacing={2} sx={{ paddingBottom: "20px" }}>
+      {/* Products */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, minmax(0, 1fr))",
+            md: "repeat(3, minmax(0, 1fr))",
+            lg: "repeat(4, minmax(0, 1fr))",
+          },
+          gap: 2,
+        }}
+      >
         {products.map((product) => (
           <Link
             href={`/products/${product.id}`}
             key={product.id}
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              minWidth: 0,
+            }}
           >
             <ProductCard product={product} />
           </Link>
         ))}
-      </Stack>
+      </Box>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Stack
+          sx={{
+            alignItems: "center",
+            pt: 1,
+            pb: 2,
+          }}
+        >
+          <Pagination
+            page={filters.page}
+            onChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        </Stack>
+      )}
     </Stack>
   );
 }
