@@ -1,3 +1,4 @@
+import GlobalFooter from "@/components/layouts/GlobalFooter";
 import HeaderGlobal from "@/components/layouts/GlobalHeader";
 import { AuthGuard } from "@/features/auth/components/AuthGuard";
 import { Box } from "@mui/material";
@@ -9,12 +10,19 @@ export default function ProtectedLayout({
 }) {
   return (
     <AuthGuard>
-      <>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <HeaderGlobal />
 
         <Box
           component="main"
           sx={{
+            flex: 1,
             px: {
               xs: 2,
               sm: 3,
@@ -28,7 +36,9 @@ export default function ProtectedLayout({
         >
           {children}
         </Box>
-      </>
+
+        <GlobalFooter />
+      </Box>
     </AuthGuard>
   );
 }
