@@ -25,12 +25,14 @@ import { useState } from "react";
 
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useAppSelector } from "@/store/hooks";
+import { useRouter } from "next/navigation";
 import NavigationItems from "./NavigationItems";
 
 export default function GlobalHeader() {
   const { mode, setMode } = useColorScheme();
   const user = useAppSelector((state) => state.auth.user);
   const handleLogout = useLogout();
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,6 +62,11 @@ export default function GlobalHeader() {
   const handleLogoutClick = () => {
     handleCloseUserMenu();
     handleLogout();
+  };
+
+  const handleProfileClick = () => {
+    handleCloseUserMenu();
+    router.push("/profile");
   };
 
   return (
@@ -264,7 +271,7 @@ export default function GlobalHeader() {
               },
             }}
           >
-            <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+            <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
 
             <MenuItem onClick={handleCloseUserMenu}>Settings</MenuItem>
 
