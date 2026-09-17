@@ -1,12 +1,12 @@
+import InfoCard from "@/components/ui/InfoCard";
+import InfoRow from "@/components/ui/InfoRow";
 import {
-    BusinessOutlined,
-    LocationOnOutlined,
-    PersonOutlined,
+  BusinessOutlined,
+  LocationOnOutlined,
+  PersonOutlined,
 } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import { User } from "../types/user.types";
-import InfoCard from "./InfoCard";
-import InfoRow from "./InfoRow";
 
 interface UserInfoCardProps {
   user: User;
