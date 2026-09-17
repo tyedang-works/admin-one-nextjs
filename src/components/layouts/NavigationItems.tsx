@@ -1,8 +1,8 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   {
@@ -16,6 +16,10 @@ const navItems = [
   {
     label: "Orders",
     href: "/orders",
+  },
+  {
+    label: "Users",
+    href: "/users",
   },
 ];
 
