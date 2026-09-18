@@ -69,6 +69,11 @@ export default function GlobalHeader() {
     router.push("/profile");
   };
 
+  const handleSettingsClick = () => {
+    handleCloseUserMenu();
+    router.push("/settings");
+  };
+
   return (
     <AppBar
       position="sticky"
@@ -273,7 +278,7 @@ export default function GlobalHeader() {
           >
             <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
 
-            <MenuItem onClick={handleCloseUserMenu}>Settings</MenuItem>
+            <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
 
             <Divider />
 
